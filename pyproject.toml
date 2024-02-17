@@ -19,6 +19,5 @@ classifiers = [
 
 dependencies = [
     "numpy >= 1.26.4",
-    "scikit-learn >= 1.4.1",
-    "keras >= 3.0.5"
+    "scipy >= 1.12.0",
 ]
