@@ -3,9 +3,6 @@ import kflow.base as Base
 import kflow.operations as ops
 import numpy as np
 
-# NOTE TO SELF: THE TESTS CAN ONLY WORK IF YOU CALL numerical_derivative BEFORE session.backward()
-
-
 class OperationTest(unittest.TestCase):
     def numerical_derivative(self, operation, gradient, X, x, Y=None, y=None, h=1e-7):
         """
@@ -376,3 +373,6 @@ class OperationTest(unittest.TestCase):
         self.session.forward([operation], placeholder_values=[[self.X, self.value_X]])
         expected_value = (self.value_X - operation.running_mean) / operation.running_variance ** 0.5
         self.assertTrue(self.arrayEquals(operation.get_value(), expected_value))
+
+if __name__ == '__main__':
+    unittest.main()

@@ -18,8 +18,7 @@ class Constant(BaseElement):
         """
         assert np.isscalar(value) or isinstance(value, type(np.array([]))), \
             "{0} isn't a scalar or a numpy array".format(value)
-
-        BaseElement.__init__(self, name, add_to_flow=add_to_flow)
+        super(Constant, self).__init__(name, add_to_flow=add_to_flow)
         if isinstance(value, type(np.array([]))):
             self.value = value
         else:

@@ -14,7 +14,7 @@ class OneElementOperation(BaseOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post Calls the initializer of the superclass
         """
-        BaseOperation.__init__(self, x, shape, name, add_to_flow)
+        super(OneElementOperation, self).__init__(x, shape, name, add_to_flow)
 
     def backward(self):
         """

@@ -32,7 +32,7 @@ class RNNbaseOperation(base.AdvancedOperation):
 
         operations = [dot_product1, dot_product2, add1, add2, output]
 
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(RNNbaseOperation, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class baseRNN(Layer):
@@ -87,7 +87,7 @@ class baseRNN(Layer):
                 self.operations.append(
                     ops.Concatenate(changes[m], self.operations[-1], axis=1, add_to_flow=False))
 
-        Layer.__init__(self, self.operations, dropout_rate=dropout_rate, batch_norm=batch_norm,
+        super(baseRNN, self).__init__(self.operations, dropout_rate=dropout_rate, batch_norm=batch_norm,
                               training=training, name=name, add_to_flow=add_to_flow)
 
     def forward(self):
@@ -185,9 +185,9 @@ class BasicRNNCell(baseRNN):
                                           self.b, activation, add_to_flow=False)
             h_values.append(basic_rnn)
 
-        baseRNN.__init__(self, x, h_values, h_values, self.x_timesteps, return_sequences,
-                         dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
-                         name=name, add_to_flow=add_to_flow)
+        super(BasicRNNCell, self).__init__(self.x, h_values, h_values, self.x_timesteps, return_sequences,
+                                            dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
+                                            name=name, add_to_flow=add_to_flow)
 
 
 class LSTM(baseRNN):
@@ -299,9 +299,9 @@ class LSTM(baseRNN):
             operations.append(activation_h)
             operations.append(h_value)
 
-        baseRNN.__init__(self, x, operations, h_values, self.x_timesteps, return_sequences,
-                         dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
-                         name=name, add_to_flow=add_to_flow)
+        super(LSTM, self).__init__(x, operations, h_values, self.x_timesteps, return_sequences,
+                                      dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
+                                      name=name, add_to_flow=add_to_flow)
 
 
 class GRU(baseRNN):
@@ -402,6 +402,6 @@ class GRU(baseRNN):
             operations.append(multiply2)
             operations.append(h_value)
 
-        baseRNN.__init__(self, x, operations, h_values, self.x_timesteps, return_sequences,
-                         dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
-                         name=name, add_to_flow=add_to_flow)
+        super(GRU, self).__init__(x, operations, h_values, self.x_timesteps, return_sequences,
+                                  dropout_rate=dropout_rate, batch_norm=batch_norm, training=training,
+                                  name=name, add_to_flow=add_to_flow)

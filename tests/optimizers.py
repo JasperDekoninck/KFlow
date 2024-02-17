@@ -87,3 +87,6 @@ class OptimizersTest(unittest.TestCase):
         for i in range(1000):
             self.session.run([self.loss2, optimizer])
         self.assertTrue(-0.78389 - 0.01 <= self.simple_var.get_value() <= -0.78389 + 0.01)
+
+if __name__ == '__main__':
+    unittest.main()

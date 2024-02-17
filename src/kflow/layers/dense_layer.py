@@ -51,4 +51,4 @@ class Dense(Layer):
         add = ops.Add(matmul, b, add_to_flow=False)
         operations = [weight_regul, bias_regul, matmul, add]
 
-        Layer.__init__(self, operations, activation, dropout_rate, batch_norm, name, add_to_flow, training)
+        super(Dense, self).__init__(operations, activation, dropout_rate, batch_norm, name, add_to_flow, training)

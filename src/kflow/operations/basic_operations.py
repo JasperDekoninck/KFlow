@@ -1,8 +1,8 @@
-from .. import base
+from .. import base as basic
 import numpy as np
 
 
-class DoNothing(base.OneElementOperation):
+class DoNothing(basic.OneElementOperation):
     """
     A simple one element operation that does not perform any operation on its input.
     """
@@ -16,7 +16,7 @@ class DoNothing(base.OneElementOperation):
         :param kwargs: ...
         :post calls the Initializer of the OneElementOperation
         """
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(DoNothing, self).__init__(x, name=name, add_to_flow=add_to_flow)
     
     def operation(self):
         """
@@ -34,7 +34,7 @@ class DoNothing(base.OneElementOperation):
         return gradient
 
 
-class Add(base.TwoElementOperation):
+class Add(basic.TwoElementOperation):
     """An operation that adds two BaseElements together"""
     def __init__(self, x, y, name="add", add_to_flow=True):
         """
@@ -45,7 +45,7 @@ class Add(base.TwoElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the TwoElementOperation
         """
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Add, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -63,7 +63,7 @@ class Add(base.TwoElementOperation):
         return gradient, gradient
 
 
-class Subtract(base.TwoElementOperation):
+class Subtract(basic.TwoElementOperation):
     """Performs np.subtract on function e.g. x - y"""
     def __init__(self, x, y, name="subtract", add_to_flow=True):
         """
@@ -74,7 +74,7 @@ class Subtract(base.TwoElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the TwoElementOperation
         """
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Subtract, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -92,7 +92,7 @@ class Subtract(base.TwoElementOperation):
         return gradient, -gradient
 
 
-class Dot(base.TwoElementOperation):
+class Dot(basic.TwoElementOperation):
     """Calculates the dot product of two numpy arrays"""
     def __init__(self, x, y, name="dot", add_to_flow=True):
         """
@@ -106,10 +106,10 @@ class Dot(base.TwoElementOperation):
         :pre Both inputs must be BaseElements
         :post calls the Initializer of the TwoElementOperation
         """
-        assert isinstance(y, base.BaseElement)
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(y, basic.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert y.get_shape()[1] == x.get_shape()[-1]
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Dot, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -130,7 +130,7 @@ class Dot(base.TwoElementOperation):
         return dx, dy
 
 
-class Matmul(base.TwoElementOperation):
+class Matmul(basic.TwoElementOperation):
     def __init__(self, x, y, name="dot", add_to_flow=True):
         """
         Initializes a new Matmul operation, only works for arrays of len(shape)=2, but a bit faster than dot.
@@ -144,12 +144,12 @@ class Matmul(base.TwoElementOperation):
         :pre Both inputs must be BaseElements
         :post calls the Initializer of the TwoElementOperation
         """
-        assert isinstance(y, base.BaseElement)
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(y, basic.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert len(x.get_shape()) == 2
         assert len(y.get_shape()) == 2
         assert y.get_shape()[0] == x.get_shape()[1]
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Matmul, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -170,7 +170,7 @@ class Matmul(base.TwoElementOperation):
         return dx, dy
 
 
-class Maximum(base.TwoElementOperation):
+class Maximum(basic.TwoElementOperation):
     """Performs element wise max operation"""
     def __init__(self, x, y, name="maximum", add_to_flow=True):
         """
@@ -181,7 +181,7 @@ class Maximum(base.TwoElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the TwoElementOperation
         """
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Maximum, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -208,7 +208,7 @@ class Maximum(base.TwoElementOperation):
         return dx, dy
 
 
-class Minimum(base.TwoElementOperation):
+class Minimum(basic.TwoElementOperation):
     """Performs element wise min operation"""
     def __init__(self, x, y, name="minimum", add_to_flow=True):
         """
@@ -219,7 +219,7 @@ class Minimum(base.TwoElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the TwoElementOperation
         """
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Minimum, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -245,7 +245,7 @@ class Minimum(base.TwoElementOperation):
         return dx, dy
 
 
-class Power(base.OneElementOperation):
+class Power(basic.OneElementOperation):
     """returns x ** pow"""
     def __init__(self, x, power, name="power", add_to_flow=True):
         """
@@ -259,7 +259,7 @@ class Power(base.OneElementOperation):
         assert np.isscalar(power)
         # Variable registering the power.
         self.power = power
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Power, self).__init__(x, name=name, add_to_flow=add_to_flow)
         
     def operation(self):
         """
@@ -278,7 +278,7 @@ class Power(base.OneElementOperation):
         return dx
 
 
-class Exp(base.OneElementOperation):
+class Exp(basic.OneElementOperation):
     """returns base ** x"""
     def __init__(self, x, base=np.e, name="exp", add_to_flow=True):
         """
@@ -291,9 +291,9 @@ class Exp(base.OneElementOperation):
         :post calls the Initializer of the OneElementOperation
         """
         assert np.isscalar(base) and base >= 0
-        # Variable registering the base.
+        # Variable registering the basic.
         self.base = base
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Exp, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -311,7 +311,7 @@ class Exp(base.OneElementOperation):
         return np.power(self.base, self.x.get_value()) * np.log(self.base) * gradient
 
 
-class Log(base.OneElementOperation):
+class Log(basic.OneElementOperation):
     """returns log(x + epsilon) / log(base)
      Epsilon is necessary for smoothing"""
     def __init__(self, x, base=np.e, epsilon=1e-7, name="log", add_to_flow=True):
@@ -332,7 +332,7 @@ class Log(base.OneElementOperation):
         self.base = base
         # Variable registering the epsilon of the operation
         self.epsilon = epsilon
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Log, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -350,7 +350,7 @@ class Log(base.OneElementOperation):
         return gradient / ((self.x.get_value() + self.epsilon) * np.log(self.base))
 
 
-class Multiply(base.TwoElementOperation):
+class Multiply(basic.TwoElementOperation):
     """Returns element wise multiplication"""
     def __init__(self, x, y, name="multiply", add_to_flow=True):
         """
@@ -361,7 +361,7 @@ class Multiply(base.TwoElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the TwoElementOperation
         """
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Multiply, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -382,7 +382,7 @@ class Multiply(base.TwoElementOperation):
         return dx, dy
 
 
-class Divide(base.TwoElementOperation):
+class Divide(basic.TwoElementOperation):
     """returns element wise division: x/(y+epsilon)"""
     def __init__(self, x, y, epsilon=1e-7, name="divide", add_to_flow=True):
         """
@@ -398,7 +398,7 @@ class Divide(base.TwoElementOperation):
         assert np.isscalar(epsilon)
         # Variable registering the epsilon
         self.epsilon = epsilon
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Divide, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -419,7 +419,7 @@ class Divide(base.TwoElementOperation):
         return dx, dy
 
 
-class Abs(base.OneElementOperation):
+class Abs(basic.OneElementOperation):
     def __init__(self, x, name="abs", add_to_flow=True):
         """
         Initializes a new Abs operation
@@ -428,7 +428,7 @@ class Abs(base.OneElementOperation):
         :param add_to_flow: Boolean indicating whether or not to add the operation to the flow
         :post calls the Initializer of the OneElementOperation
         """
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Abs, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -446,7 +446,7 @@ class Abs(base.OneElementOperation):
         return np.sign(self.x.get_value()) * gradient
 
 
-class Sum(base.OneElementOperation):
+class Sum(basic.OneElementOperation):
     """returns the sum of x along a certain axis"""
     def __init__(self, x, axis=None, keepdims=False, add_to_flow=True, name="sum"):
         """
@@ -461,12 +461,12 @@ class Sum(base.OneElementOperation):
         :pre axis must be an int and must be lower than the length of the shape of x or it must be None
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(keepdims, bool)
         assert axis is None or (isinstance(axis, int) and 0 <= axis < len(x.get_shape()))
         self.axis = axis
         self.keepdims = keepdims
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Sum, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -492,7 +492,7 @@ class Sum(base.OneElementOperation):
         return dx
 
 
-class Mean(base.OneElementOperation):
+class Mean(basic.OneElementOperation):
     """returns the mean of x along a certain axis"""
     def __init__(self, x, axis=None, keepdims=False, name="mean", add_to_flow=True):
         """
@@ -507,12 +507,12 @@ class Mean(base.OneElementOperation):
         :pre axis must be an int and must be lower than the length of the shape of x or it is None
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(keepdims, bool)
         assert axis is None or (isinstance(axis, int) and 0 <= axis < len(x.get_shape()))
         self.axis = axis
         self.keepdims = keepdims
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Mean, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -538,7 +538,7 @@ class Mean(base.OneElementOperation):
         return dx
 
 
-class BroadcastTo(base.OneElementOperation):
+class BroadcastTo(basic.OneElementOperation):
     """Broadcasts x into shape"""
     def __init__(self, x, shape, name="broadcast_to", add_to_flow=True):
         """
@@ -551,12 +551,12 @@ class BroadcastTo(base.OneElementOperation):
         :pre shape must be list or tuple containing only integers
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(shape, (list, tuple))
         assert np.all([isinstance(i, int) for i in shape])
         # Variable registering the output shape
         self.shape_broadcast = shape
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(BroadcastTo, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -580,7 +580,7 @@ class BroadcastTo(base.OneElementOperation):
         return gradient
 
 
-class Newaxis(base.OneElementOperation):
+class Newaxis(basic.OneElementOperation):
     """Adds axis of size 1 in place you want (axis)
     e.g. x.shape = (3, 2, 3) and axis=1 => output.shape = (3, 1, 2, 3)
     """
@@ -595,11 +595,11 @@ class Newaxis(base.OneElementOperation):
         :pre axis must be an integer
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(axis, int)
         # Variable registering the axis
         self.axis = axis
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Newaxis, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -617,7 +617,7 @@ class Newaxis(base.OneElementOperation):
         return gradient.reshape(self.x.get_shape())
 
 
-class Reshape(base.OneElementOperation):
+class Reshape(basic.OneElementOperation):
     def __init__(self, x, shape, name="reshape", add_to_flow=True):
         """
         Initializes a new Reshape operation
@@ -629,12 +629,12 @@ class Reshape(base.OneElementOperation):
         :pre shape must be list or tuple containing only integers
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(shape, (list, tuple))
         assert np.all([isinstance(i, int) for i in shape])
         # Variable registering the output shape
         self.output_shape = shape
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Reshape, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -652,7 +652,7 @@ class Reshape(base.OneElementOperation):
         return gradient.reshape(self.x.get_shape())
 
 
-class Flatten(base.OneElementOperation):
+class Flatten(basic.OneElementOperation):
     """flattens array into shape (batch_size, inputs)"""
     def __init__(self, x, name="flatten", add_to_flow=True):
         """
@@ -663,8 +663,8 @@ class Flatten(base.OneElementOperation):
         :pre x must be a BaseElement
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        assert isinstance(x, basic.BaseElement)
+        super(Flatten, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -682,7 +682,7 @@ class Flatten(base.OneElementOperation):
         return gradient.reshape(self.x.get_shape())
 
 
-class Concatenate(base.TwoElementOperation):
+class Concatenate(basic.TwoElementOperation):
     """Concatenates two arrays along certain axis, axis cannot be None"""
     def __init__(self, x, y, axis, name="concatination", add_to_flow=True):
         """
@@ -696,11 +696,11 @@ class Concatenate(base.TwoElementOperation):
         :pre axis must be an integer
         :post calls the Initializer of the TwoElementOperation
         """
-        assert isinstance(x, base.BaseElement) and isinstance(y, base.BaseElement)
+        assert isinstance(x, basic.BaseElement) and isinstance(y, basic.BaseElement)
         assert isinstance(axis, int)
         # Variable registering the axis.
         self.axis = axis
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(Concatenate, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -720,7 +720,7 @@ class Concatenate(base.TwoElementOperation):
         return gradients_x, gradients_y
 
 
-class Pad(base.OneElementOperation):
+class Pad(basic.OneElementOperation):
     """Pads an  image of shape (batch_size, n_channels, width, height) with zeros"""
     def __init__(self, x, pad, name="zero padding", add_to_flow=True):
         """
@@ -733,11 +733,11 @@ class Pad(base.OneElementOperation):
         :pre pad must be an int
         :post calls the Initializer of the OneElementOperation
         """
-        assert isinstance(x, base.BaseElement)
+        assert isinstance(x, basic.BaseElement)
         assert isinstance(pad, int)
         # Variable registering the pad.
         self.pad = pad
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Pad, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """

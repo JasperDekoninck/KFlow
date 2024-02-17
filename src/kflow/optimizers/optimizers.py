@@ -76,7 +76,7 @@ class SGD(Optimizer):
         :post Calls the initializer of the optimizer class
         :post Creates a variable registering the learning rate of the optimizer
         """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        super(SGD, self).__init__(name, clipvalue, variables)
         self.lr = learning_rate
 
     def update_variables(self):
@@ -94,18 +94,18 @@ class MomentumOptimizer(Optimizer):
     """Class that implements the Momentum optimizer"""
     def __init__(self, learning_rate=1e-3, momentum=0.9, name="Momentum optimizer", clipvalue=None, variables=None):
         """
-       Initializes a new MomentumOptimizer optimizer
-       :param learning_rate: The learning rate parameter for the gradient descent
-       :param momentum: The momentum parameter for the momentum optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning rate of the optimizer
-       :post Creates a variable registering the momentum of the optimizer
-       :post Creates a variable registering the current optimizing speed for each variable.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        Initializes a new MomentumOptimizer optimizer
+        :param learning_rate: The learning rate parameter for the gradient descent
+        :param momentum: The momentum parameter for the momentum optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning rate of the optimizer
+        :post Creates a variable registering the momentum of the optimizer
+        :post Creates a variable registering the current optimizing speed for each variable.
+        """
+        super(MomentumOptimizer, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.momentum = momentum
@@ -141,18 +141,18 @@ class NesterovOptimizer(Optimizer):
     """Class that implements the Nesterov optimizer"""
     def __init__(self, learning_rate=1e-3, momentum=0.9, clipvalue=None, name="Nesterov optimizer", variables=None):
         """
-       Initializes a new NesterovOptimizer optimizer
-       :param learning_rate: The learning rate parameter for the gradient descent
-       :param momentum: The momentum parameter for the momentum optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning rate of the optimizer
-       :post Creates a variable registering the momentum of the optimizer
-       :post Creates a variable registering the current optimizing speed for each variable.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        Initializes a new NesterovOptimizer optimizer
+        :param learning_rate: The learning rate parameter for the gradient descent
+        :param momentum: The momentum parameter for the momentum optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning rate of the optimizer
+        :post Creates a variable registering the momentum of the optimizer
+        :post Creates a variable registering the current optimizing speed for each variable.
+        """
+        super(NesterovOptimizer, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.momentum = momentum
@@ -191,17 +191,17 @@ class AdaGrad(Optimizer):
     def __init__(self, learning_rate=1, epsilon=1e-8, clipvalue=None, name="Adagrad", variables=None):
         """
         Initializes a new AdaGrad optimizer
-       :param learning_rate: The learning rate parameter for the gradient descent
-       :param epsilon: The epsilon parameter for the AdaGrad optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning rate of the optimizer
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current gradient sqaured for each variable.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the gradient descent
+        :param epsilon: The epsilon parameter for the AdaGrad optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning rate of the optimizer
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current gradient sqaured for each variable.
+        """
+        super(AdaGrad, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.grad_squared = [0 for _ in range(len(self.variables))]
@@ -239,19 +239,19 @@ class RMSProp(Optimizer):
     def __init__(self, learning_rate=1e-3, momentum=0.9, epsilon=1e-8, clipvalue=None, name="RMSProp", variables=None):
         """
         Initializes a new RMSProp optimizer
-       :param learning_rate: The learning rate parameter for the gradient descent
-       :param momentum: The momentum parameter for the momentum optimizer
-       :param epsilon: The epsilon parameter for the AdaGrad optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning rate of the optimizer
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current gradient sqaured for each variable.
-       :post Creates a variable registering the momentum of the optimizer
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the gradient descent
+        :param momentum: The momentum parameter for the momentum optimizer
+        :param epsilon: The epsilon parameter for the AdaGrad optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning rate of the optimizer
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current gradient sqaured for each variable.
+        :post Creates a variable registering the momentum of the optimizer
+        """
+        super(RMSProp, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.momentum = momentum
@@ -291,18 +291,18 @@ class AdaDelta(Optimizer):
     def __init__(self, momentum=0.9, epsilon=1e-5, clipvalue=None, name="AdaDelta", variables=None):
         """
         Initializes a new AdaDelta optimizer
-       :param momentum: The momentum parameter for the momentum optimizer
-       :param epsilon: The epsilon parameter for the AdaGrad optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current gradient squared for each variable.
-       :post Creates a variable registering the current parameter update squared for each variable.
-       :post Creates a variable registering the momentum of the optimizer
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param momentum: The momentum parameter for the momentum optimizer
+        :param epsilon: The epsilon parameter for the AdaGrad optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current gradient squared for each variable.
+        :post Creates a variable registering the current parameter update squared for each variable.
+        :post Creates a variable registering the momentum of the optimizer
+        """
+        super(AdaDelta, self).__init__(name, clipvalue, variables)
         self.momentum = momentum
         self.grad_squared = [0 for _ in range(len(self.variables))]
         self.parameter_updates_squared = [0 for _ in range(len(self.variables))]
@@ -351,24 +351,24 @@ class Adam(Optimizer):
                  variables=None):
         """
         Initializes a new Adam optimizer
-       :param learning_rate: The learning rate parameter for the Adam optimizer
-       :param beta1: The beta1 parameter for the Adam optimizer
-       :param beta2: The beta2 parameter for the Adam optimizer
-       :param epsilon: The epsilon parameter for the Adam optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning_rate of the optimizer
-       :post Creates a variable registering the beta1 of the optimizer
-       :post Creates a variable registering the beta2 of the optimizer
-       :post Creates a variable registering the current parameter update squared for each variable.
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current optimizing speed for each variable.
-       :post Creates a variable registering the current optimizing momentum for each variable.
-       :post Creates a variable registering the time.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the Adam optimizer
+        :param beta1: The beta1 parameter for the Adam optimizer
+        :param beta2: The beta2 parameter for the Adam optimizer
+        :param epsilon: The epsilon parameter for the Adam optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning_rate of the optimizer
+        :post Creates a variable registering the beta1 of the optimizer
+        :post Creates a variable registering the beta2 of the optimizer
+        :post Creates a variable registering the current parameter update squared for each variable.
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current optimizing speed for each variable.
+        :post Creates a variable registering the current optimizing momentum for each variable.
+        :post Creates a variable registering the time.
+        """
+        super(Adam, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.time = 0
@@ -420,24 +420,24 @@ class AdaMax(Optimizer):
                  clipvalue=None, name="AdaMax", variables=None):
         """
         Initializes a new AdaMax optimizer
-       :param learning_rate: The learning rate parameter for the AdaMax optimizer
-       :param beta1: The beta1 parameter for the AdaMax optimizer
-       :param beta2: The beta2 parameter for the AdaMax optimizer
-       :param name: The name of the optimizer
-       :param epsilon: Smoothign value for the division in the update of the AdaMax optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning_rate of the optimizer
-       :post Creates a variable registering the beta1 of the optimizer
-       :post Creates a variable registering the beta2 of the optimizer
-       :post Creates a variable registering the current parameter update squared for each variable.
-       :post Creates a variable registering the current optimizing speed for each variable.
-       :post Creates a variable registering the current optimizing momentum for each variable.
-       :post Creates a variable registering the time.
-       :post Creates a variable registering epsilon.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the AdaMax optimizer
+        :param beta1: The beta1 parameter for the AdaMax optimizer
+        :param beta2: The beta2 parameter for the AdaMax optimizer
+        :param name: The name of the optimizer
+        :param epsilon: Smoothign value for the division in the update of the AdaMax optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning_rate of the optimizer
+        :post Creates a variable registering the beta1 of the optimizer
+        :post Creates a variable registering the beta2 of the optimizer
+        :post Creates a variable registering the current parameter update squared for each variable.
+        :post Creates a variable registering the current optimizing speed for each variable.
+        :post Creates a variable registering the current optimizing momentum for each variable.
+        :post Creates a variable registering the time.
+        :post Creates a variable registering epsilon.
+        """
+        super(AdaMax, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.time = 0
@@ -488,23 +488,23 @@ class Nadam(Optimizer):
                  variables=None):
         """
         Initializes a new Nadam optimizer
-       :param learning_rate: The learning rate parameter for the Nadam optimizer
-       :param beta1: The beta1 parameter for the Nadam optimizer
-       :param beta2: The beta2 parameter for the Nadam optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning_rate of the optimizer
-       :post Creates a variable registering the beta1 of the optimizer
-       :post Creates a variable registering the beta2 of the optimizer
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current parameter update squared for each variable.
-       :post Creates a variable registering the current optimizing speed for each variable.
-       :post Creates a variable registering the current optimizing momentum for each variable.
-       :post Creates a variable registering the time.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the Nadam optimizer
+        :param beta1: The beta1 parameter for the Nadam optimizer
+        :param beta2: The beta2 parameter for the Nadam optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning_rate of the optimizer
+        :post Creates a variable registering the beta1 of the optimizer
+        :post Creates a variable registering the beta2 of the optimizer
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current parameter update squared for each variable.
+        :post Creates a variable registering the current optimizing speed for each variable.
+        :post Creates a variable registering the current optimizing momentum for each variable.
+        :post Creates a variable registering the time.
+        """
+        super(Nadam, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.time = 0
@@ -559,24 +559,24 @@ class AMSProp(Optimizer):
                  variables=None):
         """
         Initializes a new AMSProp optimizer
-       :param learning_rate: The learning rate parameter for the AMSProp optimizer
-       :param beta1: The beta1 parameter for the AMSProp optimizer
-       :param beta2: The beta2 parameter for the AMSProp optimizer
-       :param name: The name of the optimizer
-       :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
-       :param variables: The variables the optimizer needs to update, None or list of Variables
-       :post Calls the initializer of the optimizer class
-       :post Creates a variable registering the learning_rate of the optimizer
-       :post Creates a variable registering the beta1 of the optimizer
-       :post Creates a variable registering the beta2 of the optimizer
-       :post Creates a variable registering the epsilon of the optimizer
-       :post Creates a variable registering the current parameter update squared for each variable.
-       :post Creates a variable registering the current optimizing speed for each variable.
-       :post Creates a variable registering the current optimizing speed2 for each variable.
-       :post Creates a variable registering the current optimizing momentum for each variable.
-       :post Creates a variable registering the time.
-       """
-        Optimizer.__init__(self, name, clipvalue, variables)
+        :param learning_rate: The learning rate parameter for the AMSProp optimizer
+        :param beta1: The beta1 parameter for the AMSProp optimizer
+        :param beta2: The beta2 parameter for the AMSProp optimizer
+        :param name: The name of the optimizer
+        :param clipvalue: An array of size two indicating what the maximum gradient and what the minimum gradient is
+        :param variables: The variables the optimizer needs to update, None or list of Variables
+        :post Calls the initializer of the optimizer class
+        :post Creates a variable registering the learning_rate of the optimizer
+        :post Creates a variable registering the beta1 of the optimizer
+        :post Creates a variable registering the beta2 of the optimizer
+        :post Creates a variable registering the epsilon of the optimizer
+        :post Creates a variable registering the current parameter update squared for each variable.
+        :post Creates a variable registering the current optimizing speed for each variable.
+        :post Creates a variable registering the current optimizing speed2 for each variable.
+        :post Creates a variable registering the current optimizing momentum for each variable.
+        :post Creates a variable registering the time.
+        """
+        super(AMSProp, self).__init__(name, clipvalue, variables)
 
         self.learning_rate = learning_rate
         self.t = 0

@@ -16,7 +16,7 @@ class Placeholder(BaseElement):
         :post The value is initialized with zeros in the shape of the given shape
         """
         assert isinstance(shape, (list, tuple)) or np.isscalar(shape)
-        BaseElement.__init__(self, name, add_to_flow=add_to_flow)
+        super(Placeholder, self).__init__(name, add_to_flow=add_to_flow)
         if isinstance(shape, (list, tuple)):
             self.shape = shape
         else:

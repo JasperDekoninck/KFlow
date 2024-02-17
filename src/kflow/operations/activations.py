@@ -8,14 +8,14 @@ class ReLU(base.OneElementOperation):
     def __init__(self, x, name="ReLU", add_to_flow=True):
         """
         Initializes a new ReLU activation
-        :param x: baseElement, the input of the ReLU
+        :param x: BaseElement, the input of the ReLU
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the OneElementOperation is called
         """
-        assert isinstance(x, base.baseElement)
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        assert isinstance(x, base.BaseElement)
+        super().__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -41,14 +41,14 @@ class Sigmoid(base.OneElementOperation):
     def __init__(self, x, name="sigmoid", add_to_flow=True):
         """
         Initializes a new Sigmoid activation
-        :param x: baseElement, the input of the Sigmoid
+        :param x: BaseElement, the input of the Sigmoid
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the OneElementOperation is called
         """
-        assert isinstance(x, base.baseElement)
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        assert isinstance(x, base.BaseElement)
+        super().__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -75,14 +75,14 @@ class Tanh(base.OneElementOperation):
     def __init__(self, x, name="tanh", add_to_flow=True):
         """
         Initializes a new Tanh activation
-        :param x: baseElement, the input of the Tanh
+        :param x: BaseElement, the input of the Tanh
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the OneElementOperation is called
         """
-        assert isinstance(x, base.baseElement)
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        assert isinstance(x, base.BaseElement)
+        super().__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -108,23 +108,22 @@ class Softmax(base.AdvancedOperation):
     def __init__(self, x, name="softmax", add_to_flow=True):
         """
         Initializes a new Softmax activation
-        :param x: baseElement, the input of the Softmax
+        :param x: BaseElement, the input of the Softmax
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the AdvancedOperation is called with the following equation:
               e ** x / sum(e ** x, axis=1)
         Note: we implement a more stable algorithm that does exactly the same though (the exponent is (x - mean(x)))
         """
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         mean_value = ops.Mean(x, axis=1, keepdims=True, add_to_flow=False)
         input_exponent = ops.Subtract(x, mean_value, add_to_flow=False)
         exp_x = ops.Exp(input_exponent, add_to_flow=False)
         sum_exp = ops.Sum(exp_x, axis=1, keepdims=True, add_to_flow=False)
         output = ops.Divide(exp_x, sum_exp, add_to_flow=False)
         operations = [mean_value, input_exponent, exp_x, sum_exp, output]
-
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super().__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class ELU(base.OneElementOperation):
@@ -132,17 +131,17 @@ class ELU(base.OneElementOperation):
     def __init__(self, x, alpha=1.0, name="elu", add_to_flow=True):
         """
         Initializes a new ELU activation
-        :param x: baseElement, the input of the ELU
+        :param x: BaseElement, the input of the ELU
         :param alpha: the smoothing parameter of the ELU function, scalar
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the OneElementOperation is called
         """
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         assert np.isscalar(alpha)
         self.alpha = alpha
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super().__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -171,18 +170,18 @@ class LeakyReLU(base.OneElementOperation):
     def __init__(self, x, alpha=0.01, name="Leaky ReLU", add_to_flow=True):
         """
         Initializes a new LeakyReLU activation
-        :param x: baseElement, the input of the LeakyReLU
+        :param x: BaseElement, the input of the LeakyReLU
         :param alpha: the smoothing parameter of the LeakyReLU function, scalar
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :post the Initializer of the OneElementOperation is called
         """
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         assert np.isscalar(alpha)
         self.alpha = alpha
         self.x = x
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super().__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -211,19 +210,19 @@ class PReLU(base.AdvancedOperation):
                  add_to_flow=True):
         """
         Initializes a new PReLU activation
-        :param x: baseElement, the input of the PReLU
+        :param x: BaseElement, the input of the PReLU
         :param array: Boolean indicating whether or not to use the array variant of PReLU or not
         :param initial_value: the initial value for the alpha parameter
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :pre initial_value is a scalar
         :post Creates a variable alpha that is used in the formula of the PReLU acitivation, if array is True, then
               this variable will be an array, otherwise it is a scalar.
         :post the Initializer of AdvancedOperation is called with the following equation:
               max(0, x) + alpha * min(0, x)
         """
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         assert np.isscalar(initial_value)
         # initialize the Variable
         if array:
@@ -237,8 +236,7 @@ class PReLU(base.AdvancedOperation):
         add = ops.Add(maximum, multiply, add_to_flow=False)
 
         operations = [maximum, minimum, multiply, add]
-
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super().__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class Swish(base.AdvancedOperation):
@@ -246,13 +244,13 @@ class Swish(base.AdvancedOperation):
     def __init__(self, x, trainable=True, initial_value=1, name="swish", add_to_flow=True):
         """
         Initializes a new Swish activation
-        :param x: baseElement, the input of the Swish
+        :param x: BaseElement, the input of the Swish
         :param trainable: Boolean indicating whether or not the beta parameter of the swish activation function
                           is trainable.
         :param initial_value: the initial value for the beta parameter
         :param name: The name of the operation, string
         :param add_to_flow: Boolean indicating whether or not to add the activation to the flow
-        :pre x must be a baseElement
+        :pre x must be a BaseElement
         :pre initial_value is a scalar
         :post Creates a variable beta that is used in the formula of the Swish acitivation, if trainable is True, then
               this will be a Variable of shape 1, otherwise it is a Constant.
@@ -269,5 +267,4 @@ class Swish(base.AdvancedOperation):
         multiply2 = ops.Multiply(x, sigmoid, add_to_flow=False)
 
         operations = [multiply, sigmoid, multiply2]
-
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super().__init__(operations, name=name, add_to_flow=add_to_flow)

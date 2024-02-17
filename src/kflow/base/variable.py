@@ -13,7 +13,7 @@ class Variable(BaseElement):
         :param name: The name of the variable
         :post Initializes the value with the output of the initializer(shape).
         """
-        BaseElement.__init__(self, name)
+        super(Variable, self).__init__(name)
         if isinstance(initial_value, type(np.array([]))):
             self.value = initial_value
         else:

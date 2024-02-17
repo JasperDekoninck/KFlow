@@ -33,7 +33,7 @@ class VanillaConvOperation(base.TwoElementOperation):
         """
         self.strides = strides
         self.b = b
-        base.TwoElementOperation.__init__(self, x, y, name=name, add_to_flow=add_to_flow)
+        super(VanillaConvOperation, self).__init__(x, y, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -162,8 +162,8 @@ class VanillaConv2D(Layer):
 
         operations.insert(0, x_padded)
 
-        Layer.__init__(self, operations, activation, dropout_rate, batch_norm, name, add_to_flow, training)
-
+        super(VanillaConv2D, self).__init__(operations, activation=activation, dropout_rate=dropout_rate, batch_norm=batch_norm,
+                                training=training, name=name, add_to_flow=add_to_flow)
 
 class ConvOperation(base.TwoElementOperation):
     """
@@ -202,7 +202,7 @@ class ConvOperation(base.TwoElementOperation):
         self.output_width = np.int32((self.x.get_shape()[1] - self.kernel_size[0]) / self.strides[0] + 1)
         self.output_height = np.int32((self.x.get_shape()[2] - self.kernel_size[1]) / self.strides[1] + 1)
 
-        base.TwoElementOperation.__init__(self, x, y=self.W, name=name, add_to_flow=add_to_flow)
+        super(ConvOperation, self).__init__(x, W, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -347,7 +347,7 @@ class Conv2D(Layer):
         output = ConvOperation(x_padded, self.W, self.b, strides, kernel_size, add_to_flow=False)
         operations = [x_padded, output]
 
-        Layer.__init__(self, operations, activation=activation, dropout_rate=dropout_rate, batch_norm=batch_norm,
+        super(Conv2D, self).__init__(operations, activation=activation, dropout_rate=dropout_rate, batch_norm=batch_norm,
                               training=training, name=name, add_to_flow=add_to_flow)
 
 
@@ -370,8 +370,7 @@ class VanillaMaxPooling(base.OneElementOperation):
         self.output_width = np.int32((np.round(x.get_shape()[1]) / strides[0]))
         self.output_height = np.int32((np.round(x.get_shape()[2]) / strides[1]))
         self.strides = strides
-
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(VanillaMaxPooling, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -444,7 +443,7 @@ class MaxPooling(base.OneElementOperation):
         self.output_height = np.int32((np.round(x.get_shape()[1]) / self.strides[0]))
         self.output_width = np.int32((np.round(x.get_shape()[2]) / self.strides[1]))
 
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(MaxPooling, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -558,7 +557,7 @@ class AveragePooling(base.OneElementOperation):
             self.strides = strides
         self.output_height = np.int32((np.round(x.get_shape()[1]) / self.strides[0]))
         self.output_width = np.int32((np.round(x.get_shape()[2]) / self.strides[1]))
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(AveragePooling, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """

@@ -13,7 +13,7 @@ class BasicRegularizer(base.AdvancedOperation):
         :param add_to_flow: Boolean indidicating whether or not to add the operation to the flow
         :post The initializer of the superclass is called
         """
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(BasicRegularizer, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
     def backward(self):
         """
@@ -36,7 +36,7 @@ class NoRegularization(base.OneElementOperation):
         :param add_to_flow: Boolean indidicating whether or not to add the operation to the flow
         :post The initializer of the superclass is called
         """
-        base.OneElementOperation.__init__(self, W, name=name, add_to_flow=add_to_flow)
+        super(NoRegularization, self).__init__(W, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -72,8 +72,7 @@ class L1Regularizer(BasicRegularizer):
         output = ops.Multiply(som, l1_weight, add_to_flow=False)
 
         operations = [abs_, som, output]
-
-        BasicRegularizer.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(L1Regularizer, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class L2Regularizer(BasicRegularizer):
@@ -95,9 +94,7 @@ class L2Regularizer(BasicRegularizer):
         output = ops.Multiply(som, l2_weight, add_to_flow=False)
 
         operations = [square, som, output]
-
-        BasicRegularizer.__init__(self, operations, name=name, add_to_flow=add_to_flow)
-
+        super(L2Regularizer, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 class L1L2Regularizer(BasicRegularizer):
     """Class that implements a combination of the l1 and l2 loss."""
@@ -123,16 +120,14 @@ class L1L2Regularizer(BasicRegularizer):
         output = ops.Add(l1_loss, l2_loss, add_to_flow=False)
 
         operations = [l1_loss, l2_loss, output]
-
-        BasicRegularizer.__init__(self, operations, name=name, add_to_flow=add_to_flow)
-
+        super(L1L2Regularizer, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 class Dropout(base.OneElementOperation):
     """Implements the dropout operation for a layer."""
     def __init__(self, x, training, dropout_rate=0.5, name="dropout", add_to_flow=True):
         """
         Initializes a new Dropout operation.
-        :param x: The input for the operation, must be baseElement
+        :param x: The input for the operation, must be BaseElement
         :param training: Boolean Placeholder indicating whether or not the neural net is in training phase or in
                          testing phase
         :param dropout_rate: Scalar between 0 and 1 indicating what fraction of the neurons output must be set to 0.
@@ -146,13 +141,12 @@ class Dropout(base.OneElementOperation):
         assert np.isscalar(dropout_rate) and 0 <= dropout_rate <= 1
         assert isinstance(training, base.Placeholder) and (training.get_value() is None or
                                                            isinstance(training.get_value(), bool))
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         self.dropout_rate = dropout_rate
         self.fallout = None
         self.keep_rate = None
         self.training = training
-
-        base.OneElementOperation.__init__(self, x, name=name, add_to_flow=add_to_flow)
+        super(Dropout, self).__init__(x, name=name, add_to_flow=add_to_flow)
 
     def operation(self):
         """
@@ -194,7 +188,7 @@ class BatchNormalization(base.AdvancedOperation):
     def __init__(self, x, training, axis=1, momentum=0.9, epsilon=1e-7, name="Batch normalization", add_to_flow=True):
         """
         Initializes a new BatchNormalization.
-        :param x: The input for the operation, must be baseElement
+        :param x: The input for the operation, must be BaseElement
         :param training: Boolean Placeholder indicating whether or not the neural net is in training phase or in
                          testing phase
         :param axis: The axis along which to take the batch normalization
@@ -213,7 +207,7 @@ class BatchNormalization(base.AdvancedOperation):
         """
         assert isinstance(training, base.Placeholder) and (training.get_value() is None or
                                                            isinstance(training.get_value(), bool))
-        assert isinstance(x, base.baseElement)
+        assert isinstance(x, base.BaseElement)
         assert np.isscalar(momentum)
         assert np.isscalar(epsilon)
         self.gamma = base.Variable(1, name=name + "/gamma")
@@ -236,8 +230,7 @@ class BatchNormalization(base.AdvancedOperation):
         self.momentum = momentum
         self.training = training
         self.epsilon = epsilon
-
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(BatchNormalization, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
     def forward(self):
         """

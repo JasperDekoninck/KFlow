@@ -19,7 +19,7 @@ class BaseOperation(BaseElement):
         :post self.shape will hold the given shape, if the given shape is None, it will calculate the output shape
               by performing the operation
         """
-        BaseElement.__init__(self, name, add_to_flow)
+        super(BaseOperation, self).__init__(name, add_to_flow=add_to_flow)
 
         # adding functionality in case of integer or float given in as x
         if isinstance(x, BaseElement):

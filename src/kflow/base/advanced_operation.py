@@ -15,7 +15,7 @@ class AdvancedOperation(BaseElement):
         :post The initializer of the superclass is called
         :post The shape of the advanced operation is the shape of the last operation in the given operations.
         """
-        BaseElement.__init__(self, name, add_to_flow)
+        super(AdvancedOperation, self).__init__(name, add_to_flow)
         assert isinstance(operations, (list, tuple))
         assert np.all([isinstance(operation, (AdvancedOperation, BaseElement)) for operation in operations])
         self.operations = operations

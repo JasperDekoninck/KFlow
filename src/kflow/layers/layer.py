@@ -41,4 +41,4 @@ class Layer(base.AdvancedOperation):
             dropout = ops.Dropout(activation, training, dropout_rate=dropout_rate, add_to_flow=False)
             operations.append(dropout)
 
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(Layer, self).__init__(operations, name=name, add_to_flow=add_to_flow)

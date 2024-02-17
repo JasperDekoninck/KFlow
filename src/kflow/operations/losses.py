@@ -9,12 +9,12 @@ class Loss(base.AdvancedOperation):
     def __init__(self, operations, name="loss", add_to_flow=True):
         """
         Initializes a new loss advanced operation
-        :param operations: The operations to perform in order in the advanced operation, list of baseElements
+        :param operations: The operations to perform in order in the advanced operation, list of BaseElements
         :param name: The name of the loss, string
         :param add_to_flow: Boolean indicating whether or not to add the loss to the flow
         :post the initializer of AdvancedOperation is called.
         """
-        base.AdvancedOperation.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(Loss, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
     def backward(self):
         """
@@ -37,7 +37,7 @@ class Loss(base.AdvancedOperation):
 
 class LossMaker(Loss):
     """
-    A class that makes any baseElement whatsoever to a Loss.
+    A class that makes any BaseElement whatsoever to a Loss.
     """
     def __init__(self, input_element, name="loss", add_to_flow=True):
         """
@@ -48,7 +48,7 @@ class LossMaker(Loss):
         :post calls the initializer of the loss class with the DoNothing operation
         """
         do_nothing = ops.DoNothing(input_element, add_to_flow=False)
-        Loss.__init__(self, [do_nothing], name, add_to_flow)
+        super(LossMaker, self).__init__([do_nothing], name, add_to_flow)
 
 
 class Mse(Loss):
@@ -58,8 +58,8 @@ class Mse(Loss):
     def __init__(self, y_true, y_pred, name="mse", add_to_flow=True):
         """
         Initializes a new MSE.
-        :param y_true: A baseElement (or scalar) that should have been the predicted value
-        :param y_pred: A baseElement (or scalar) that is the predicted value.
+        :param y_true: A BaseElement (or scalar) that should have been the predicted value
+        :param y_pred: A BaseElement (or scalar) that is the predicted value.
         :param name: The name of the loss, string
         :param add_to_flow: Boolean indicating whether or not to add the loss to the flow
         :post Calls the initializer of the loss function with the operations describing the following function:
@@ -70,8 +70,7 @@ class Mse(Loss):
         mean = ops.Mean(square, add_to_flow=False)
 
         operations = [minus, square, mean]
-
-        Loss.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(Mse, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class Mae(Loss):
@@ -81,8 +80,8 @@ class Mae(Loss):
     def __init__(self, y_true, y_pred, name="mae", add_to_flow=True):
         """
         Initializes a new MAE.
-        :param y_true: A baseElement (or scalar) that should have been the predicted value
-        :param y_pred: A baseElement (or scalar) that is the predicted value.
+        :param y_true: A BaseElement (or scalar) that should have been the predicted value
+        :param y_pred: A BaseElement (or scalar) that is the predicted value.
         :param name: The name of the loss, string
         :param add_to_flow: Boolean indicating whether or not to add the loss to the flow
         :post Calls the initializer of the loss function with the operations describing the following function:
@@ -93,8 +92,7 @@ class Mae(Loss):
         mean = ops.Mean(absol, add_to_flow=False)
 
         operations = [minus, absol, mean]
-
-        Loss.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(Mae, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class BinaryCrossentropy(Loss):
@@ -104,8 +102,8 @@ class BinaryCrossentropy(Loss):
     def __init__(self, y_true, y_pred, name="binary crossentropy", add_to_flow=True, epsilon=1e-7):
         """
         Initializes a new BinaryCrossentropy.
-        :param y_true: A baseElement (or scalar) that should have been the predicted value
-        :param y_pred: A baseElement (or scalar) that is the predicted value.
+        :param y_true: A BaseElement (or scalar) that should have been the predicted value
+        :param y_pred: A BaseElement (or scalar) that is the predicted value.
         :param name: The name of the loss, string
         :param add_to_flow: Boolean indicating whether or not to add the loss to the flow
         :param epsilon: the epsilon used in the log operation to act as some kind of smoothing
@@ -124,7 +122,7 @@ class BinaryCrossentropy(Loss):
 
         operations = [one_minus_x, log_one_minus_x, log_x, one_minus_y, first_mult, second_mult, all_, all_minus_one,
                       output]
-        Loss.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(BinaryCrossentropy, self).__init__(operations, name=name, add_to_flow=add_to_flow)
 
 
 class CategoricalCrossentropy(Loss):
@@ -134,8 +132,8 @@ class CategoricalCrossentropy(Loss):
     def __init__(self, y_true, y_pred, name="categorical crossentropy", add_to_flow=True, epsilon=1e-7):
         """
         Initializes a new CategoricalCrossentropy.
-        :param y_true: A baseElement (or scalar) that should have been the predicted value
-        :param y_pred: A baseElement (or scalar) that is the predicted value.
+        :param y_true: A BaseElement (or scalar) that should have been the predicted value
+        :param y_pred: A BaseElement (or scalar) that is the predicted value.
         :param name: The name of the loss, string
         :param add_to_flow: Boolean indicating whether or not to add the loss to the flow
         :param epsilon: the epsilon used in the log operation to act as some kind of smoothing
@@ -149,5 +147,4 @@ class CategoricalCrossentropy(Loss):
         output = ops.Mean(multiply, axis=0, add_to_flow=False)
 
         operations = [log_y, entropy, minus_output, multiply, output]
-
-        Loss.__init__(self, operations, name=name, add_to_flow=add_to_flow)
+        super(CategoricalCrossentropy, self).__init__(operations, name=name, add_to_flow=add_to_flow)

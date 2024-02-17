@@ -26,7 +26,7 @@ class TwoElementOperation(BaseOperation):
             else:
                 self.y = Constant(y, add_to_flow=False)
 
-        BaseOperation.__init__(self, x, shape, name, add_to_flow)
+        super(TwoElementOperation, self).__init__(x, shape, name, add_to_flow)
 
     def backward(self):
         """
