@@ -1,4 +1,4 @@
-from .. import base
+from . import base
 import numpy as np
 
 """Good explanations for all optimizers: http://ruder.io/optimizing-gradient-descent/index.html"""
